@@ -24,8 +24,13 @@ public class Libro {
         return prestado;
     }
     
-    public void setPrestado(boolean prestado) {
+    public synchronized void setPrestado(boolean prestado) {
         this.prestado = prestado;
+        if (prestado) {
+            System.out.println("Libro " + nombreLibro + " (ISBN: " + isbn + ") ha sido prestado.");
+        } else {
+            System.out.println("Libro " + nombreLibro + " (ISBN: " + isbn + ") ha sido devuelto.");
+        }
     }
 
     

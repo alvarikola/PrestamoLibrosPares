@@ -1,11 +1,11 @@
 package prestamolibrospares;
 
 public class PrestamoLibrosPares {
-    public static int NUMERO_LIBROS = 2;
-    public static int NUMERO_ESTUDIANTES = 2;
-    
+    public static int NUMERO_LIBROS = 9;
+    public static int NUMERO_ESTUDIANTES = 4; // Cambié a 4 estudiantes
+
     public static void main(String[] args) {
-        //Crear los libros
+        // Crear los libros
         Libro libros[] = new Libro[NUMERO_LIBROS];
         libros[0] = new Libro(1, "Java para principiantes");
         libros[1] = new Libro(2, "Python para principiantes");
@@ -16,18 +16,25 @@ public class PrestamoLibrosPares {
         libros[6] = new Libro(7, "HTML y CSS");
         libros[7] = new Libro(8, "PHP avanzado");
         libros[8] = new Libro(9, "Cómo montar tu propio ordenador");
-        
+
         GestorPrestamo gestor = new GestorPrestamo(libros);
 
-        
         // Crear los estudiantes
         Thread estudiantes[] = new Thread[NUMERO_ESTUDIANTES];
-        estudiantes[0] = new Thread(new HiloEstudiante("Andrei", libros));
-        estudiantes[1] = new Thread(new HiloEstudiante("Samuel", libros));
+        
+        estudiantes[0] = new Thread(new HiloEstudiante("Andrei", libros, gestor));
+        estudiantes[1] = new Thread(new HiloEstudiante("Samuel", libros, gestor));
+        estudiantes[2] = new Thread(new HiloEstudiante("Yoel", libros, gestor));
+        estudiantes[3] = new Thread(new HiloEstudiante("Ángel", libros, gestor));
+
+        
         
         estudiantes[0].start();
         estudiantes[1].start();
+        estudiantes[2].start();
+        estudiantes[3].start();
         
+
         // Esperar a que terminen los hilos (en este caso, nunca terminarán)
         for (Thread estudiante : estudiantes) {
             try {
@@ -37,7 +44,6 @@ public class PrestamoLibrosPares {
             }
         }
     }
-    
 }
 
 

@@ -2,44 +2,40 @@ package prestamolibrospares;
 import java.util.Random;
 
 public class HiloEstudiante implements Runnable {
-    private String nombre;
-    private Libro[] libros;
-    private Random random = new Random();
+    private final String nombre;
+    private final Libro[] libros;
+    private final GestorPrestamo gestor;
+    private final Random random = new Random();
 
-    public HiloEstudiante(String nombre, Libro[] libros) {
+    public HiloEstudiante(String nombre, Libro[] libros, GestorPrestamo gestor) {
         this.nombre = nombre;
         this.libros = libros;
+        this.gestor = gestor;
     }
 
     @Override
     public void run() {
         while (true) {
-            // Seleccionar dos libros al azar
-            int libro1Index = random.nextInt(libros.length);
-            int libro2Index;
-            do {
-                libro2Index = random.nextInt(libros.length);
-            } while (libro1Index == libro2Index);
-
-            // Simulación de préstamo de libros
-            System.out.println(nombre + " ha seleccionado los libros: " + libros[libro1Index].getNombreLibro() + " (ID: " + libros[libro1Index].getIsbn() + ") y " + libros[libro2Index].getNombreLibro() + " (ID: " + libros[libro2Index].getIsbn() + ")");
-
-            // Simular tiempo de uso (entre 1 y 3 minutos)
-            int tiempoUso = 1000 * (1 + random.nextInt(3)); // convertir a milisegundos
             try {
-                Thread.sleep(tiempoUso);
+                // Obtener dos libros
+                Libro[] librosPrestados = gestor.obtenerDosLibros();
+                System.out.println(nombre + " ha tomado los libros: " + librosPrestados[0].getNombreLibro() + " y " + librosPrestados[1].getNombreLibro());
+
+                // Simular el uso de los libros entre 1 y 3 horas (60-180 minutos)
+                int tiempoUso = 60 + random.nextInt(121); // Entre 60 y 180 minutos
+                Thread.sleep(tiempoUso * 10);  // Multiplicamos por 10 para simular 1 segundo por minuto
+                System.out.println(nombre + " ha terminado de usar los libros.");
+
+                // Devolver los libros
+                gestor.devolverLibros(librosPrestados);
+                System.out.println(nombre + " ha devuelto los libros.");
+
+                // Descansar entre 1 y 2 horas (60-120 minutos)
+                int tiempoDescanso = 60 + random.nextInt(61); // Entre 60 y 120 minutos
+                Thread.sleep(tiempoDescanso * 10);  // Multiplicamos por 10 para simular 1 segundo por minuto
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-            }
-
-            System.out.println(nombre + " ha devuelto los libros: " + libros[libro1Index].getNombreLibro() + " (ID: " + libros[libro1Index].getIsbn() + ") y " + libros[libro2Index].getNombreLibro() + " (ID: " + libros[libro2Index].getIsbn() + ")");
-
-            // Simular tiempo de descanso (entre 1 y 2 minutos)
-            int tiempoDescanso = 1000 * (1 + random.nextInt(2)); // convertir a milisegundos
-            try {
-                Thread.sleep(tiempoDescanso);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+                System.out.println(nombre + " ha sido interrumpido.");
             }
         }
     }
