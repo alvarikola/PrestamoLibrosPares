@@ -6,16 +6,19 @@ public class HiloEstudiante implements Runnable {
     private final Libro[] libros;
     private final GestorPrestamo gestor;
     private final Random random = new Random();
+    private int maxPrestamos; // Número máximo de veces que tomará libros
 
-    public HiloEstudiante(String nombre, Libro[] libros, GestorPrestamo gestor) {
+
+    public HiloEstudiante(String nombre, Libro[] libros, GestorPrestamo gestor, int maxPrestamos) {
         this.nombre = nombre;
         this.libros = libros;
         this.gestor = gestor;
+        this.maxPrestamos = maxPrestamos;
     }
 
     @Override
     public void run() {
-        while (true) {
+         for (int i = 0; i < maxPrestamos; i++) { // Bucle limitado por maxPrestamos
             try {
                 // Obtener dos libros
                 Libro[] librosPrestados = gestor.obtenerDosLibros();

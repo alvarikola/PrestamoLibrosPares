@@ -2,7 +2,9 @@ package prestamolibrospares;
 
 public class PrestamoLibrosPares {
     public static int NUMERO_LIBROS = 9;
-    public static int NUMERO_ESTUDIANTES = 4; // Cambié a 4 estudiantes
+    public static int NUMERO_ESTUDIANTES = 4; 
+    public static int MAX_PRESTAMOS = 4; // Número de veces que cada estudiante puede tomar libros
+
 
     public static void main(String[] args) {
         // Crear los libros
@@ -22,10 +24,10 @@ public class PrestamoLibrosPares {
         // Crear los estudiantes
         Thread estudiantes[] = new Thread[NUMERO_ESTUDIANTES];
         
-        estudiantes[0] = new Thread(new HiloEstudiante("Andrei", libros, gestor));
-        estudiantes[1] = new Thread(new HiloEstudiante("Samuel", libros, gestor));
-        estudiantes[2] = new Thread(new HiloEstudiante("Yoel", libros, gestor));
-        estudiantes[3] = new Thread(new HiloEstudiante("Ángel", libros, gestor));
+        estudiantes[0] = new Thread(new HiloEstudiante("Andrei", libros, gestor, MAX_PRESTAMOS));
+        estudiantes[1] = new Thread(new HiloEstudiante("Samuel", libros, gestor, MAX_PRESTAMOS));
+        estudiantes[2] = new Thread(new HiloEstudiante("Yoel", libros, gestor, MAX_PRESTAMOS));
+        estudiantes[3] = new Thread(new HiloEstudiante("Ángel", libros, gestor, MAX_PRESTAMOS));
 
         
         
