@@ -37,7 +37,6 @@ public class PrestamoLibrosPares {
         estudiantes[3].start();
         
 
-        // Esperar a que terminen los hilos (en este caso, nunca terminarán)
         for (Thread estudiante : estudiantes) {
             try {
                 estudiante.join();
